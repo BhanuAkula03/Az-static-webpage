@@ -17,11 +17,10 @@ jobs:
       uses: azure/CLI@v1
 
     - name: Upload to Azure Blob Storage
-     env:
+      env:  # Ensure 'env' aligns with 'name'
         AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
         AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
-
-      run: |
+      run: |  # Ensure 'run' aligns with 'env'
         az storage blob upload-batch \
           --account-name $AZURE_STORAGE_ACCOUNT \
           --account-key $AZURE_STORAGE_KEY \
