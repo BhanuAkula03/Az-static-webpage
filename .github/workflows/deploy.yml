@@ -17,9 +17,10 @@ jobs:
       uses: azure/CLI@v1
 
     - name: Upload to Azure Blob Storage
-      env:
-        AZURE_STORAGE_ACCOUNT: ${{ secrets.bhanupractice }}
-        AZURE_STORAGE_KEY: ${{ secrets.l+8sVS6IW0HLFmbRKWhjmCqyEviX7JLWo5H4ruNGT10YD5fgnD4eki0rA0TFCwgoeXqEtYRn3V4V+AStenrNUQ== }}
+     env:
+        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+
       run: |
         az storage blob upload-batch \
           --account-name $AZURE_STORAGE_ACCOUNT \
