@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,12 +7,73 @@ body {
     background-color: #f4f4f4;
     color: #333;
 }
+
+/* Header Styles */
 header {
     background-color: #6200ea;
     color: white;
     padding: 20px;
+    border-bottom: 4px solid #3700b3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header p {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 15px;
+}
+
+.btn {
+    background-color: white;
+    color: #6200ea;
+    border: 2px solid #6200ea;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    background-color: #6200ea;
+    color: white;
+}
+
+/* Section Styles */
+main {
+    padding: 20px;
+}
+
+section {
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+h2 {
+    color: #6200ea;
+    margin-bottom: 10px;
+}
+
+/* Footer Styles */
 footer {
     margin-top: 20px;
     font-size: 0.9em;
+    background-color: #3700b3;
+    color: white;
+    padding: 10px 0;
 }
