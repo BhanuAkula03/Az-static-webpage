@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times Roman, sans-serif;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -33,7 +33,7 @@ header p {
 }
 
 .btn {
-    background-color: white;
+    background-color: grey;
     color: #6200ea;
     border: 2px solid #6200ea;
     border-radius: 5px;
@@ -47,7 +47,7 @@ header p {
 
 .btn:hover {
     background-color: #6200ea;
-    color: white;
+    color: grey;
 }
 
 /* Section Styles */
@@ -58,7 +58,7 @@ main {
 section {
     margin: 20px auto;
     padding: 15px;
-    background: white;
+    background: grey;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 600px;
@@ -74,6 +74,6 @@ footer {
     margin-top: 20px;
     font-size: 0.9em;
     background-color: #3700b3;
-    color: white;
+    color: grey;
     padding: 10px 0;
 }
