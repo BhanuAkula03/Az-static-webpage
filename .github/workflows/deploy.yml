@@ -17,35 +17,44 @@ jobs:
     # Step 2: Set up Azure CLI
     - name: Set up Azure CLI
       uses: azure/CLI@v2
+      with:
+        inlineScript: |
+          az version  # This ensures the Azure CLI is set up correctly
 
-    # Step 3: Log in to Azure Storage Account using Account Key
+    # Step 3: Log in to Azure using Storage Account Key
     - name: Log in to Azure Storage Account using Account Key
-      run: |
-        az storage account keys list \
-          --resource-group practiceAz \  # Updated with your Resource Group Name
-          --account-name bhanupractice \
-          --query '[0].value' \
-          --output tsv > storage_key.txt
+      uses: azure/CLI@v2
+      with:
+        inlineScript: |
+          az storage account keys list \
+            --resource-group practiceAz \
+            --account-name bhanupractice \
+            --query '[0].value' \
+            --output tsv > storage_key.txt
 
-        az login --identity
-        export AZURE_STORAGE_KEY=$(cat storage_key.txt)
+          az login --identity
+          export AZURE_STORAGE_KEY=$(cat storage_key.txt)
 
     # Step 4: Enable Static Website Hosting for the Storage Account
     - name: Enable Static Website Hosting
-      run: |
-        az storage blob service-properties update \
-          --account-name bhanupractice \
-          --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-          --static-website \
-          --index-document index.html \
-          --error-document error.html
+      uses: azure/CLI@v2
+      with:
+        inlineScript: |
+          az storage blob service-properties update \
+            --account-name bhanupractice \
+            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+            --static-website \
+            --index-document index.html \
+            --error-document error.html
 
     # Step 5: Upload Website Files to the Blob Storage $web Container
     - name: Deploy Static Files to Azure Blob Storage
-      run: |
-        az storage blob upload-batch \
-          --account-name bhanupractice \
-          --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-          --source ./dist \  # Path to your static website files (adjust if different)
-          --destination '$web' \
-          --overwrite
+      uses: azure/CLI@v2
+      with:
+        inlineScript: |
+          az storage blob upload-batch \
+            --account-name bhanupractice \
+            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+            --source ./dist \  # Path to your static website files (adjust if different)
+            --destination '$web' \
+            --overwrite
