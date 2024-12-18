@@ -1,36 +1,36 @@
 name: Deploy Static Website to Azure
 
 on:
-  push: 
+  push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Install Azure CLI
-      run: |
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - name: Set up Azure CLI
+      uses: azure/CLI@v2
 
-    - name: Debug Environment Variables
-      run: |
-        echo "AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT"
-      env:
-        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+    - name: Log in to Azure (Interactive)
+      run: az login  # This will require you to authenticate manually during the workflow run
 
-    - name: Upload to Azure Blob Storage
-      env:
-        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+    - name: Enable Static Website Hosting
+      run: |
+        az storage blob service-properties update \
+          --account-name bhanupractice \
+          --static-website \
+          --index-document index.html \
+          --error-document error.html
+
+    - name: Deploy Static Files to Azure Blob Storage
       run: |
         az storage blob upload-batch \
-          --account-name bhanupractice
-          --account-key $AZURE_STORAGE_KEY \
-          --source . \
+          --account-name bhanupractice \
+          --source ./dist \
           --destination '$web' \
           --overwrite
