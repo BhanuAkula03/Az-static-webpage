@@ -13,15 +13,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Set up Azure CLI
-      uses: azure/CLI@v2
 
-    - name: Authenticate with Azure
-      run: |
-        az login --service-principal \
-          --username ${{ secrets.AZURE_CLIENT_ID }} \
-          --password ${{ secrets.AZURE_CLIENT_SECRET }} \
-          --tenant ${{ secrets.AZURE_TENANT_ID }}
 
     - name: Enable Static Website Hosting (If Not Already Enabled)
       run: |
