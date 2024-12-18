@@ -3,30 +3,43 @@ name: Deploy Static Website to Azure
 on:
   push:
     branches:
-      - main  # Trigger deployment on changes pushed to the main branch
+      - main  # Triggers the workflow on pushes to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Check out the repository
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Enable Static Website Hosting (If Not Already Enabled)
+    # Step 2: Set up Azure CLI
+    - name: Set up Azure CLI
+      uses: azure/CLI@v2
+
+    # Step 3: Log in to Azure using the Static Web Apps API Token
+    - name: Log in to Azure with API Token
+      run: |
+        az login --service-principal \
+          --username ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }} \
+          --password ${{ secrets.BHANUPRACTICE }} \
+          --tenant <your-tenant-id>  # Replace with your tenant ID
+
+    # Step 4: Enable Static Website Hosting for the Storage Account
+    - name: Enable Static Website Hosting
       run: |
         az storage blob service-properties update \
           --account-name bhanupractice \
-          --account-key ${{ secrets.BHANUPRACTICE }} \
-          --static website true \
+          --static-website \
           --index-document index.html \
           --error-document error.html
 
+    # Step 5: Upload Website Files to the Blob Storage $web Container
     - name: Deploy Static Files to Azure Blob Storage
       run: |
         az storage blob upload-batch \
           --account-name bhanupractice \
-          --account-key ${{ secrets.BHANUPRACTICE }} \
-          --source ./dist \  # Replace this with the directory containing your website files
+          --source ./dist \  # Path to your static website files (adjust if different)
           --destination '$web' \
           --overwrite
