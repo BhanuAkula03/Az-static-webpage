@@ -1,30 +1,29 @@
-name: Deploy Static Website to Azure
+name: Deploy Static Website to Azure Blob Storage
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow on pushes to the main branch
+      - main  # Triggers the workflow on pushes to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Check out the repository
+    # Step 1: Checkout the repository
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    # Step 2: Authenticate with Azure using API Token
-    - name: Authenticate with Azure
-      env:
-        AZURE_ACCESS_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }}
-      run: |
-        echo "$AZURE_ACCESS_TOKEN" | az login --service-principal \
-          --username "dummy-username" \
-          --password "$AZURE_ACCESS_TOKEN" \
-          --tenant "dummy-tenant-id"
+    # Step 2: Set up Azure CLI
+    - name: Set up Azure CLI
+      uses: azure/CLI@v2
 
-    # Step 3: Enable Static Website Hosting
+    # Step 3: Log in to Azure using the Static Web Apps API Token
+    - name: Log in to Azure
+      run: |
+        echo "${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }}" 
+        
+    # Step 4: Enable Static Website Hosting for the Storage Account
     - name: Enable Static Website Hosting
       run: |
         az storage blob service-properties update \
@@ -33,11 +32,11 @@ jobs:
           --index-document index.html \
           --error-document error.html
 
-    # Step 4: Deploy Static Files to Azure Blob Storage
-    - name: Upload Static Website Files
+    # Step 5: Upload Website Files to the Blob Storage $web Container
+    - name: Deploy Static Files to Azure Blob Storage
       run: |
         az storage blob upload-batch \
           --account-name bhanupractice \
-          --source ./dist \  # Replace with the path to your website files
+          --source ./dist \  # Path to your static website files (adjust if different)
           --destination '$web' \
           --overwrite
