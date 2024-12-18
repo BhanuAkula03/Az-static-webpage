@@ -16,9 +16,8 @@ jobs:
 
     # Step 2: Log in to Azure using API Token
     - name: Log in to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }}
+      run: |
+        echo "${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }}" | az login --identity
 
     # Step 3: Enable Static Website Hosting
     - name: Enable Static Website Hosting
@@ -34,6 +33,6 @@ jobs:
       run: |
         az storage blob upload-batch \
           --account-name bhanupractice \
-          --source ./dist \  # Replace this with the path to your website files
+          --source ./dist \  # Replace with the path to your website files
           --destination '$web' \
           --overwrite
