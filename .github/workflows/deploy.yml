@@ -13,13 +13,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-
-
     - name: Enable Static Website Hosting (If Not Already Enabled)
       run: |
         az storage blob service-properties update \
           --account-name bhanupractice \
-          --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+          --account-key ${{ secrets.BHANUPRACTICE }} \
           --static-website \
           --index-document index.html \
           --error-document error.html
@@ -28,7 +26,7 @@ jobs:
       run: |
         az storage blob upload-batch \
           --account-name bhanupractice \
-          --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+          --account-key ${{ secrets.BHANUPRACTICE }} \
           --source ./dist \  # Replace this with the directory containing your website files
           --destination '$web' \
           --overwrite
