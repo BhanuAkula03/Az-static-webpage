@@ -18,6 +18,7 @@ jobs:
         az storage blob service-properties update \
           --account-name bhanupractice \
           --account-key ${{ secrets.BHANUPRACTICE }} \
+          --static website true \
           --index-document index.html \
           --error-document error.html
 
