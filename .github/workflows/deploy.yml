@@ -1,39 +1,44 @@
-name: Deploy Static Website to Azure Blob Storage
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
     branches:
-      - main  # Triggers the workflow on pushes to the main branch
+      - main  # This triggers deployment on push to the main branch
 
 jobs:
-  deploy:
+  build_and_deploy_job:
     runs-on: ubuntu-latest
-    name: Deploy Static Website
+    name: Build and Deploy Job
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Log in to Azure
-      - name: Log in to Azure
-        uses: azure/login@v1
+      # Step 2: Set up Node.js (if you are using a Node.js-based static site)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          creds: ${{ secrets.AZURE_MY_SP }}
+          node-version: '16'  # Or whatever version you're using for your app
 
-      # Step 3: Enable Static Website Hosting for the Storage Account
-      - name: Enable Static Website Hosting
+      # Step 3: Install dependencies (if needed)
+      - name: Install dependencies
         run: |
-          az storage blob service-properties update \
-            --account-name bhanupractice \
-            --static-website true \
-            --index-document index.html
+          npm install  # Or your preferred package manager (e.g., yarn)
 
-      # Step 4: Upload Static Files to Azure Blob Storage
-      - name: Upload Static Files
+      # Step 4: Build the app (for frameworks like React, Angular, Vue, etc.)
+      - name: Build app
         run: |
-          az storage blob upload-batch \
-            --account-name bhanupractice \
-            --source \  # Adjust this path to your website build directory
-            --destination '$web' \
-            --overwrite
+          npm run build  # Adjust based on your build command, like `yarn build` or `ng build`
+
+      # Step 5: Deploy to Azure Static Web Apps
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F}}  # Your API token from Azure Static Web Apps
+          repo_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to allow PR comments and integration
+          action: "upload"
+          app_location: "/"  # Root of the project, adjust if your app is inside a sub-folder
+          api_location: ""  # Leave empty if you don't have a backend API
+          output_location: "build"  # Folder where your built app resides, adjust if necessary (e.g., 'dist')
+
