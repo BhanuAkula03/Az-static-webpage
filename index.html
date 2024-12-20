@@ -4,27 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Favorite Movies</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>My Favorite Movies</h1>
-        <p>Your go-to platform for movie enthusiasts!</p>
-        <div class="buttons">
-            <button class="btn signup">Sign Up</button>
-            <button class="btn signin">Sign In</button>
-        </div>
+        <h1>Welcome to My Favorite Movies</h1>
+        <p>Discover my all-time favorite movies and why I love them!</p>
     </header>
-    <main>
-        <section>
-            <h2>About</h2>
-            <p>Discover, share, and discuss your favorite movies on this platform. Hosted on Azure Blob Storage for fast and secure access.</p>
-        </section>
-    </main>
+    
+    <section class="movie-list">
+        <div class="movie-card">
+            <img src="movie1.jpg" alt="Movie 1">
+            <h2>Movie Title 1</h2>
+            <p>A brief description about Movie 1. This is where the plot summary will go.</p>
+            <button class="btn-details">Learn More</button>
+        </div>
+        <div class="movie-card">
+            <img src="movie2.jpg" alt="Movie 2">
+            <h2>Movie Title 2</h2>
+            <p>A brief description about Movie 2. This is where the plot summary will go.</p>
+            <button class="btn-details">Learn More</button>
+        </div>
+        <div class="movie-card">
+            <img src="movie3.jpg" alt="Movie 3">
+            <h2>Movie Title 3</h2>
+            <p>A brief description about Movie 3. This is where the plot summary will go.</p>
+            <button class="btn-details">Learn More</button>
+        </div>
+    </section>
+    
     <footer>
-        <p>&copy; 2024 My Favorite Movies</p>
+        <p>© 2024 My Favorite Movies | Created with ❤️</p>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
