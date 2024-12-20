@@ -26,15 +26,14 @@ jobs:
         run: |
           az storage blob service-properties update \
             --account-name bhanupractice \
-            --static-website \
-            --index-document index.html \
-            --error-document error.html
+            --static-website true \
+            --index-document index.html
 
       # Step 4: Upload Static Files to Azure Blob Storage
       - name: Upload Static Files
         run: |
           az storage blob upload-batch \
             --account-name bhanupractice \
-            --source ./dist \  # Adjust this path to your website build directory
+            --source \  # Adjust this path to your website build directory
             --destination '$web' \
             --overwrite
