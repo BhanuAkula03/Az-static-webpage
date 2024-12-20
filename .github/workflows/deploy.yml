@@ -34,8 +34,8 @@ jobs:
         run: |
           az storage blob upload-batch \
             --account-name bhanupractice \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }}
-            --auth-mode key
-            --source \  # Adjust this path to your website build directory
+            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+            --auth-mode key \
+            --source \  
             --destination '$web' \
             --overwrite
