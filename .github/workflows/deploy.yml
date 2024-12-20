@@ -36,6 +36,4 @@ jobs:
             --account-name bhanupractice \
             --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
             --auth-mode key \
-            --source \  
-            --destination '$web' \
-            --overwrite
+            --overwrite -d '$web' -s
