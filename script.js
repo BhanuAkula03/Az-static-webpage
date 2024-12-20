@@ -1,6 +1,6 @@
-// Add functionality to buttons (e.g., showing more details)
-document.querySelectorAll('.btn-details').forEach(button => {
+// Add event listeners to buttons for future enhancements
+document.querySelectorAll('.btn-secondary').forEach(button => {
     button.addEventListener('click', () => {
-        alert('More information coming soon!');
+        console.log('Navigating to the review page...');
     });
 });
