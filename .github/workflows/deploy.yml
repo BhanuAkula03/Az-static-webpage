@@ -3,40 +3,44 @@ name: Deploy Static Website to Azure Blob Storage
 on:
   push:
     branches:
-      - main  # Triggers the workflow on pushes to the main branch
+      - main  # Trigger deployment on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger deployment on pull requests to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    name: Deploy to Azure Blob Storage
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    # Step 2: Set up Azure CLI
-    - name: Set up Azure CLI
-      uses: azure/CLI@v2
+      # Step 2: Set up Azure CLI
+      - name: Set up Azure CLI
+        uses: azure/CLI@v2
 
-    # Step 3: Log in to Azure using Azure API Token
-    - name: Log in to Azure
-      run: |
-        echo ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }} | az login --identity
+      # Step 3: Log in to Azure using API Token
+      - name: Log in to Azure
+        run: |
+          echo ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }} | az login --identity
 
-    # Step 4: Enable Static Website Hosting for the Storage Account
-    - name: Enable Static Website Hosting
-      run: |
-        az storage blob service-properties update \
-          --account-name bhanupractice \
-          --static-website \
-          --index-document index.html \
-          --error-document error.html
+      # Step 4: Enable Static Website Hosting for the Blob Storage
+      - name: Enable Static Website Hosting
+        run: |
+          az storage blob service-properties update \
+            --account-name bhanupractice \
+            --static-website \
+            --index-document index.html \
+            --error-document error.html
 
-    # Step 5: Upload Website Files to the Blob Storage $web Container
-    - name: Deploy Static Files to Azure Blob Storage
-      run: |
-        az storage blob upload-batch \
-          --account-name bhanupractice \
-          --source \  # Path to your static website files (adjust if different)
-          --destination '$web' \
-          --overwrite
+      # Step 5: Upload Static Files to Blob Storage
+      - name: Upload Files to Azure Blob Storage
+        run: |
+          az storage blob upload-batch \
+            --account-name bhanupractice \
+            --source ./dist \  # Update this to your static files directory
+            --destination '$web' \
+            --overwrite
