@@ -24,8 +24,8 @@ jobs:
 
       # Step 3: Log in to Azure using API Token
       - name: Log in to Azure
-        run: |
-          echo ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_BAY_085A8200F }} | az login --identity
+        with: 
+            creds: ${{ secrets.AZURE_MY_SP }}
 
       # Step 4: Enable Static Website Hosting for the Blob Storage
       - name: Enable Static Website Hosting
